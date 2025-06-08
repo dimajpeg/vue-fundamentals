@@ -42,60 +42,70 @@
       <p v-else>Завантаження постів...</p>
     </div>
 
-    <hr class="divider" /> <!-- Новий розділювач -->
+    <hr class="divider" />
+    <!-- Новий розділювач -->
 
     <!-- Розділ: Композиційний API (Крок 9) -->
     <div class="section-block">
-      <CompositionCounter /> <!-- Додаємо наш новий компонент CompositionCounter -->
+      <CompositionCounter />
+      <!-- Додаємо наш новий компонент CompositionCounter -->
     </div>
-
+    <hr class="divider" />
+    <div class="section-block">
+      <PokemonList />
+    </div>
+    ¸
   </div>
 </template>
 
 <script>
-import EmailForm from './EmailForm.vue'; 
-import CompositionCounter from './CompositionCounter.vue'; // <-- ІМПОРТУЄМО НОВИЙ КОМПОНЕНТ
-import axios from 'axios';
+import EmailForm from "./EmailForm.vue";
+import CompositionCounter from "./CompositionCounter.vue"; // <-- ІМПОРТУЄМО НОВИЙ КОМПОНЕНТ
+import axios from "axios";
+import PokemonList from "./PokemonList.vue";
 
 export default {
   name: "HomePage",
   components: {
     EmailForm,
-    CompositionCounter // <-- РЕЄСТРУЄМО НОВИЙ КОМПОНЕНТ
+    CompositionCounter,
+    PokemonList, // <-- РЕЄСТРУЄМО НОВИЙ КОМПОНЕНТ
   },
   data() {
     return {
-      message: "", 
-      posts: [], 
+      message: "",
+      posts: [],
       loadingPostsError: null,
     };
   },
   computed: {
     vuexCounter() {
       return this.$store.getters.counter;
-    }
+    },
   },
   methods: {
     incrementVuexCounter() {
       this.$store.dispatch("increment");
     },
     fetchPosts() {
-      axios.get('https://jsonplaceholder.typicode.com/posts')
-        .then(response => {
-          console.log('Posts loaded:', response.data);
-          this.posts = response.data.slice(0, 10); 
-          this.loadingPostsError = null; 
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => {
+          console.log("Posts loaded:", response.data);
+          this.posts = response.data.slice(0, 10);
+          this.loadingPostsError = null;
         })
-        .catch(error => {
-          console.error('Error loading posts:', error);
-          this.posts = []; 
-          this.loadingPostsError = error.message || 'Не вдалося завантажити пости';
+        .catch((error) => {
+          console.error("Error loading posts:", error);
+          this.posts = [];
+          this.loadingPostsError =
+            error.message || "Не вдалося завантажити пости";
         });
-    }
+    },
   },
-  mounted() { 
-    this.fetchPosts(); 
-  }
+  mounted() {
+    this.fetchPosts();
+  },
 };
 </script>
 
@@ -112,7 +122,9 @@ export default {
   border-radius: 8px;
   background-color: #f9f9f9;
 }
-.section-block h3, .section-block h4 { /* Додав h4 для CompositionCounter */
+.section-block h3,
+.section-block h4 {
+  /* Додав h4 для CompositionCounter */
   margin-top: 0;
   color: #333;
   border-bottom: 1px solid #ddd;
@@ -129,7 +141,7 @@ input {
   margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 button {
   padding: 8px 15px;
