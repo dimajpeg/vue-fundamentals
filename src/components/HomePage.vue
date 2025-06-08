@@ -2,7 +2,7 @@
   <div class="home-page-container">
     <h1>Головна</h1>
 
-    <!-- Розділ: Реактивні дані та v-model -->
+    <!-- Розділ: Реактивні дані та v-model (Крок 5) -->
     <div class="section-block">
       <h3>Реактивні дані з v-model</h3>
       <input v-model="message" placeholder="Введіть повідомлення" />
@@ -11,7 +11,7 @@
 
     <hr class="divider" />
 
-    <!-- Розділ: Стан застосунку з Vuex -->
+    <!-- Розділ: Стан застосунку з Vuex (Крок 6) -->
     <div class="section-block">
       <h3>Лічильник з Vuex</h3>
       <h2>Лічильник Vuex: {{ vuexCounter }}</h2>
@@ -20,14 +20,14 @@
 
     <hr class="divider" />
 
-    <!-- Розділ: Створення форм та валідація -->
+    <!-- Розділ: Створення форм та валідація (Крок 7) -->
     <div class="section-block">
       <EmailForm />
     </div>
 
     <hr class="divider" />
 
-    <!-- Розділ: Праця з API та Axios -->
+    <!-- Розділ: Праця з API та Axios (Крок 8) -->
     <div class="section-block">
       <h3>Пости з JSONPlaceholder (перші 10)</h3>
       <ul v-if="posts.length > 0">
@@ -42,23 +42,32 @@
       <p v-else>Завантаження постів...</p>
     </div>
 
+    <hr class="divider" /> <!-- Новий розділювач -->
+
+    <!-- Розділ: Композиційний API (Крок 9) -->
+    <div class="section-block">
+      <CompositionCounter /> <!-- Додаємо наш новий компонент CompositionCounter -->
+    </div>
+
   </div>
 </template>
 
 <script>
-import EmailForm from './EmailForm.vue'; // Переконайся, що цей компонент існує
-import axios from 'axios'; // Імпортуємо axios
+import EmailForm from './EmailForm.vue'; 
+import CompositionCounter from './CompositionCounter.vue'; // <-- ІМПОРТУЄМО НОВИЙ КОМПОНЕНТ
+import axios from 'axios';
 
 export default {
   name: "HomePage",
   components: {
-    EmailForm 
+    EmailForm,
+    CompositionCounter // <-- РЕЄСТРУЄМО НОВИЙ КОМПОНЕНТ
   },
   data() {
     return {
       message: "", 
-      posts: [], // Для зберігання постів
-      loadingPostsError: null, // Для зберігання помилки завантаження постів
+      posts: [], 
+      loadingPostsError: null,
     };
   },
   computed: {
@@ -70,22 +79,22 @@ export default {
     incrementVuexCounter() {
       this.$store.dispatch("increment");
     },
-    fetchPosts() { // Винесемо логіку завантаження в окремий метод
+    fetchPosts() {
       axios.get('https://jsonplaceholder.typicode.com/posts')
         .then(response => {
           console.log('Posts loaded:', response.data);
-          this.posts = response.data.slice(0, 10); // Беремо тільки перші 10 постів
-          this.loadingPostsError = null; // Скидаємо помилку, якщо була
+          this.posts = response.data.slice(0, 10); 
+          this.loadingPostsError = null; 
         })
         .catch(error => {
           console.error('Error loading posts:', error);
-          this.posts = []; // Очищуємо пости у випадку помилки
+          this.posts = []; 
           this.loadingPostsError = error.message || 'Не вдалося завантажити пости';
         });
     }
   },
   mounted() { 
-    this.fetchPosts(); // Викликаємо метод для завантаження постів при монтуванні компонента
+    this.fetchPosts(); 
   }
 };
 </script>
@@ -103,7 +112,7 @@ export default {
   border-radius: 8px;
   background-color: #f9f9f9;
 }
-.section-block h3 {
+.section-block h3, .section-block h4 { /* Додав h4 для CompositionCounter */
   margin-top: 0;
   color: #333;
   border-bottom: 1px solid #ddd;
@@ -129,22 +138,22 @@ button {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  margin-right: 5px; /* Додав невеликий відступ між кнопками */
+  margin-right: 5px;
 }
 button:hover {
   background-color: #36a374;
 }
 .section-block ul {
-  list-style-type: none; /* Прибираємо стандартні маркери списку */
+  list-style-type: none;
   padding-left: 0;
 }
 .section-block li.post-item {
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 1px dashed #eee; /* Розділювач між постами */
+  border-bottom: 1px dashed #eee;
 }
 .section-block li.post-item:last-child {
-  border-bottom: none; /* Прибираємо розділювач для останнього елемента */
+  border-bottom: none;
 }
 .post-body {
   font-size: 0.9em;
