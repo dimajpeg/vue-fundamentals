@@ -7,7 +7,6 @@ const routes = [
     name: 'HomePage',
     component: HomePage
   },
-  // ... інші маршрути, якщо є ...
 ];
 
 const router = createRouter({

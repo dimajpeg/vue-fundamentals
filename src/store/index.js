@@ -1,14 +1,21 @@
-import { createStore } from 'vuex'
+// src/store/index.js
+import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-  },
-  getters: {
+    counter: 0
   },
   mutations: {
+    increment(state) {
+      state.counter++;
+    }
   },
   actions: {
+    increment({ commit }) {
+      commit('increment');
+    }
   },
-  modules: {
+  getters: {
+    counter: state => state.counter
   }
-})
+});
